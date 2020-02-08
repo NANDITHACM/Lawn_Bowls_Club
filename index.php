@@ -1,3 +1,16 @@
+<?php
+  session_start();
+
+  if (!isset($_SESSION['username'])) {
+  	$_SESSION['msg'] = "You must log in first";
+  	header('location: login.php');
+  }
+  if (isset($_GET['logout'])) {
+  	session_destroy();
+  	unset($_SESSION['username']);
+  	header("location: login.php");
+  }
+?>
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -22,19 +35,33 @@
 
 
 </head>
-<!-- NAVBAR
-================================================== -->
-
-<header>
-  <div class="dsb-header">
-    <nav>Dasboard</nav>
-  </div>
-</header>
 <body>
 
-<div>
+
 <div class="login-wrap">
-<div class="login-html">  
+<div class="login-html">
+  <div class="header">
+  <h2>Dasboard</h2>
+</div>
+<div class="content">
+    <!-- notification message -->
+    <?php if (isset($_SESSION['success'])) : ?>
+      <div class="error success" >
+        <h3>
+          <?php
+            echo $_SESSION['success'];
+            unset($_SESSION['success']);
+          ?>
+        </h3>
+      </div>
+    <?php endif ?>
+
+    <!-- logged in user information -->
+    <?php  if (isset($_SESSION['username'])) : ?>
+      <p>Welcome <strong><?php echo $_SESSION['username']; ?></strong></p>
+      <p> <a href="index.php?logout='1'" style="color: red;">logout</a> </p>
+    <?php endif ?>
+    <div>  
 <article class="panel-group bs-accordion" id="accordion" role="tablist" aria-multiselectable="true">
       <section class="panel-lb">
         <div class="panel-heading" role="tab" id="headingOne">
@@ -49,7 +76,7 @@
           <div class="panel-body">
             <ul>
               <li><a href="./user/singles.php" aria-describedby="link01-01">Singles</a></li>
-              <li><a href="pair.php" aria-describedby="link01-02">Pair</a></li>
+              <li><a href="./user/pairs.php" aria-describedby="link01-02">Pairs</a></li>
               <li><a href="triples.php" aria-describedby="link01-03">Triples</a></li>
               <li><a href="four-players.php" aria-describedby="link01-03">Four-players</a></li>
             </ul>
@@ -68,9 +95,9 @@
         <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
           <div class="panel-body">
             <ul>
-              <li><a href="#" id="link02-01">Link 1</a></li>
-              <li><a href="#" id="link02-02">Link 2</a></li>
-              <li><a href="#" id="link02-03">Link 3</a></li>
+              <li><a href="#" id="link02-01">Account</a></li>
+              <li><a href="#" id="link02-02">Games</a></li>
+              <li><a href="#" id="link02-03">Scores</a></li>
             </ul>
           </div>
         </div>
@@ -87,9 +114,9 @@
         <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
           <div class="panel-body">
             <ul>
-              <li><a href="#" id="link03-01">Link 1</a> | <a href="#" aria-describedby="link03-01">View Transcript</a></li>
-              <li><a href="#" id="link03-02">Link 2</a> | <a href="#" aria-describedby="link03-02">View Transcript</a></li>
-              <li><a href="#" id="link03-03">Link 3</a> | <a href="#" aria-describedby="link03-03">View Transcript</a></li>
+              <li><a href="#" id="link03-01">Tournaments</a></li>
+              <li><a href="#" id="link03-02">Scoreboard</a></li>
+              <li><a href="#" id="link03-03">Statistics</a></li>
             </ul>
           </div>
         </div>
@@ -106,9 +133,9 @@
         <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
           <div class="panel-body">
             <ul>
-              <li><a href="#" id="link03-01">Link 1</a> | <a href="#" aria-describedby="link03-01">View Transcript</a></li>
-              <li><a href="#" id="link03-02">Link 2</a> | <a href="#" aria-describedby="link03-02">View Transcript</a></li>
-              <li><a href="#" id="link03-03">Link 3</a> | <a href="#" aria-describedby="link03-03">View Transcript</a></li>
+              <li><a href="#" id="link03-01">Font size</a></li>
+              <li><a href="#" id="link03-02">Colours</a></li>
+              <li><a href="#" id="link03-03">Scoreboard</a></li>
             </ul>
           </div>
         </div>
@@ -117,5 +144,7 @@
   </div>
 </div>
   </div>
+</div>
+
 </body>
 </html>

@@ -196,6 +196,15 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance:textfield;
 }
+.login-wrap label {
+    text-align: left;
+}
+@media screen and (min-width: 600px) {
+.login-wrap {
+    max-width: 600px;
+    margin: 0 auto;
+}
+}
 
 .scorecard-header {
   padding: 10px 0;
